@@ -17,6 +17,7 @@ namespace WindowsFormsApp3
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 richTextBox1.LoadFile(openFileDialog1.FileName);
+                saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
             }
         }
