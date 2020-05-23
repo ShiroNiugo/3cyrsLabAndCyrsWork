@@ -144,10 +144,10 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
