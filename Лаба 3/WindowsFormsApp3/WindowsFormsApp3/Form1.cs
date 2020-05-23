@@ -104,7 +104,7 @@ namespace WindowsFormsApp3
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Капустин Д.Е.", "О программе");
+            MessageBox.Show("Студент группы ЭИС-26\nКапустин Д.Е.", "О программе");
         }
     }
 }

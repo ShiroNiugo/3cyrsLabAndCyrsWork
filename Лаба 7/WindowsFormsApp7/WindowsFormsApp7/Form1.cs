@@ -111,7 +111,7 @@ namespace WindowsFormsApp7
 
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Капустин Д.Е.", "О программе");
+            MessageBox.Show("Студент группы ЭИС-26\nКапустин Д.Е.", "О программе");
         }
 
         private void button1_Click(object sender, EventArgs e)
