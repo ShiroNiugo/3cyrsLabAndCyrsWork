@@ -15,18 +15,18 @@ namespace WindowsFormsApp5
               Re = new Point();
 
         int val;
-        string namefile = "", file = "BMP files (*.bmp)|*.bmp| JPG files (*.JPEG)|*.jpeg| PNG files (*.PNG)|*.png";
+        string namefile = "", file = "BMP files (*.bmp)| *.bmp| JPG files (*.JPEG)| *.jpeg| PNG files (*.PNG)| *.png";
 
         public Form1()
         {
             InitializeComponent();
             bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            pictureBox1.Image = bmp;
             lol();
         }
 
         void lol()
         {
+            pictureBox1.Image = bmp;
             g = Graphics.FromImage(bmp);
             g.Clear(Color.White);
         }
@@ -36,14 +36,19 @@ namespace WindowsFormsApp5
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = file;
-            openFileDialog1.FileName = namefile;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                bmp = new Bitmap(openFileDialog1.FileName);
+                bmp = new Bitmap(Image.FromFile(openFileDialog1.FileName));
                 pictureBox1.Image = bmp;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
             }
+        }
+        
+        void Save()
+        {
+            bmp = new Bitmap(pictureBox1.Image);
+            bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -53,11 +58,7 @@ namespace WindowsFormsApp5
             else openFileDialog1.FileName = saveFileDialog1.FileName;
             try
             {
-                if (saveFileDialog1.FileName != "")
-                {
-                    bmp = new Bitmap(pictureBox1.Image);
-                    bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
-                }
+                if (saveFileDialog1.FileName != "") Save();
                 else сохранитьКакToolStripMenuItem_Click(sender, e);
             }
             catch
@@ -72,8 +73,7 @@ namespace WindowsFormsApp5
             saveFileDialog1.FileName = namefile;
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
+                Save();
             }
         }
 
@@ -121,9 +121,9 @@ namespace WindowsFormsApp5
                         g.DrawRectangle(new Pen(colorDialog1.Color, val), Re.X, Re.Y, Math.Abs(lastPoint.X - fistPoint.X), Math.Abs(lastPoint.Y - fistPoint.Y));
                     }
                 }
-                pictureBox1.Image = bmp;
-            }
             pictureBox1.Invalidate();
+            }
+                pictureBox1.Image = bmp;
         }
 
         private void изменитьЦветToolStripMenuItem_Click(object sender, EventArgs e)
