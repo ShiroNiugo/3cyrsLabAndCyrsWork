@@ -13,7 +13,7 @@ namespace WindowsFormsApp6
         ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
 
         byte gray;
-        int color, fff;
+        int color;
         bool Gray = false;
         string namefile, file = "BMP files (*.BMP)|*.bmp| JPG files (*.JPEG)|*.jpeg| PNG files (*.PNG)|*.png";
 
@@ -33,7 +33,6 @@ namespace WindowsFormsApp6
                 pictureBox1.Image = bmp;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
-                fff = openFileDialog1.FilterIndex - 1;
             }
         }
         
@@ -47,7 +46,7 @@ namespace WindowsFormsApp6
             try
             {
                 newBmp = new Bitmap(pictureBox1.Image);
-                newBmp.Save(saveFileDialog1.FileName, formats[fff]);
+                newBmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex-1]);
                 bmp = newBmp;
             }
             catch
@@ -64,7 +63,7 @@ namespace WindowsFormsApp6
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[fff]);
+                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
             }
         }
 

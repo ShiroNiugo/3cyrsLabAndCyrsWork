@@ -8,8 +8,8 @@ namespace WindowsFormsApp7
     public partial class Form1 : Form
     {
         Bitmap bmp, newBmp;
-        ImageFormat[] formats = new ImageFormat[3];
-        int brig, ty, fff, color2;
+        ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
+        int brig, ty, color2;
         bool color = false, chek = false;
         Color c;
         int cR, cG, cB;
@@ -35,7 +35,6 @@ namespace WindowsFormsApp7
                 pictureBox1.Image = bmp;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
-                fff = openFileDialog1.FilterIndex - 1;
             }
         }
 
@@ -49,7 +48,7 @@ namespace WindowsFormsApp7
             try
             {
                 newBmp = new Bitmap(pictureBox1.Image);
-                newBmp.Save(saveFileDialog1.FileName, formats[fff]);
+                newBmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
                 bmp = newBmp;
             }
             catch
@@ -66,7 +65,7 @@ namespace WindowsFormsApp7
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[fff]);
+                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
             }
         }
 

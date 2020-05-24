@@ -7,19 +7,16 @@ namespace WindowsFormsApp5
 {
     public partial class Form1 : Form
     {
-        Bitmap bmp, newBmp;
+        Bitmap bmp;
+        ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
         Graphics g;
         Point lastPoint = new Point(),
               fistPoint = new Point(),
               Re = new Point();
 
-        ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
+        int val;
+        string namefile = "", file = "BMP files (*.bmp)|*.bmp| JPG files (*.JPEG)|*.jpeg| PNG files (*.PNG)|*.png";
 
-        int val, fff;
-        string namefile = "", file = "BMP files (*.BMP)|*.bmp|" +
-                                                 "JPG files (*.JPG,)|*.jpg|" +
-                                                 "PNG files (*.PNG)|*.png";
-        
         public Form1()
         {
             InitializeComponent();
@@ -39,13 +36,13 @@ namespace WindowsFormsApp5
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = file;
+            openFileDialog1.FileName = namefile;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmp = new Bitmap(openFileDialog1.FileName);
                 pictureBox1.Image = bmp;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
-                fff = openFileDialog1.FilterIndex - 1;
             }
         }
 
@@ -56,16 +53,12 @@ namespace WindowsFormsApp5
             else openFileDialog1.FileName = saveFileDialog1.FileName;
             try
             {
-                if (namefile != "")
+                if (saveFileDialog1.FileName != "")
                 {
-                    newBmp = new Bitmap(pictureBox1.Image);
-                    newBmp.Save(saveFileDialog1.FileName, formats[fff]);
-                    bmp = newBmp;
+                    bmp = new Bitmap(pictureBox1.Image);
+                    bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
                 }
-                else
-                {
-                    сохранитьКакToolStripMenuItem_Click(sender, e);
-                }
+                else сохранитьКакToolStripMenuItem_Click(sender, e);
             }
             catch
             {
@@ -80,7 +73,7 @@ namespace WindowsFormsApp5
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[fff]);
+                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
             }
         }
 
@@ -128,8 +121,9 @@ namespace WindowsFormsApp5
                         g.DrawRectangle(new Pen(colorDialog1.Color, val), Re.X, Re.Y, Math.Abs(lastPoint.X - fistPoint.X), Math.Abs(lastPoint.Y - fistPoint.Y));
                     }
                 }
-                pictureBox1.Refresh();
+                pictureBox1.Image = bmp;
             }
+            pictureBox1.Invalidate();
         }
 
         private void изменитьЦветToolStripMenuItem_Click(object sender, EventArgs e)

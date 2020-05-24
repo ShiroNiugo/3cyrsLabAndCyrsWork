@@ -7,7 +7,6 @@ namespace Curs
 {
     public partial class MDIParent1 : Form
     {
-        private int fff;
         private ImageFormat[] formats = {ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
         private string namefile = "", file = "BMP files (*.BMP)|*.bmp| JPG files (*.JPG,)|*.jpg| PNG files (*.PNG)|*.png",
                        nf = "Окно контрастности ";
@@ -34,7 +33,6 @@ namespace Curs
                 childForm.pictureBox1.Image = childForm.bmp;
                 namefile = openFileDialog.SafeFileName;
                 saveFileDialog.FileName = openFileDialog.FileName;
-                fff = openFileDialog.FilterIndex - 1;
                 childForm.Text = nf + namefile;
                 childForm.Name = openFileDialog.FileName;
                 childForm.Show();
@@ -57,7 +55,7 @@ namespace Curs
             try
             {
                 actForm.newBmp = new Bitmap(actForm.pictureBox1.Image);
-                actForm.newBmp.Save(saveFileDialog.FileName, formats[fff]);
+                actForm.newBmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex-1]);
                 actForm.bmp = actForm.newBmp;
             }
             catch
@@ -74,7 +72,7 @@ namespace Curs
             {
                 actForm = (Form1)this.ActiveMdiChild;
                 actForm.bmp = new Bitmap(actForm.pictureBox1.Image);
-                actForm.bmp.Save(saveFileDialog.FileName, formats[fff]);
+                actForm.bmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex - 1]);
                 actForm.Name = saveFileDialog.FileName;
                 actForm.Text = nf + System.IO.Path.GetFileName(saveFileDialog.FileName);
             }
