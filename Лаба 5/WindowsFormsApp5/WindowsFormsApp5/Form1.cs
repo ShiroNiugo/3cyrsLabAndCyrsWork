@@ -13,8 +13,10 @@ namespace WindowsFormsApp5
               fistPoint = new Point(),
               Re = new Point();
 
-        int val;
-        string strFilExtn, namefile = "", file = "BMP files (*.BMP)|*.bmp|" +
+        ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
+
+        int val, fff;
+        string namefile = "", file = "BMP files (*.BMP)|*.bmp|" +
                                                  "JPG files (*.JPG,)|*.jpg|" +
                                                  "PNG files (*.PNG)|*.png";
         
@@ -43,6 +45,7 @@ namespace WindowsFormsApp5
                 pictureBox1.Image = bmp;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
+                fff = openFileDialog1.FilterIndex - 1;
             }
         }
 
@@ -56,19 +59,7 @@ namespace WindowsFormsApp5
                 if (namefile != "")
                 {
                     newBmp = new Bitmap(pictureBox1.Image);
-                    string strFilExtn = namefile.Remove(0, namefile.Length - 3);
-                    switch (strFilExtn)
-                    {
-                        case "bmp":
-                            newBmp.Save(saveFileDialog1.FileName, ImageFormat.Bmp);
-                            break;
-                        case "jpg":
-                            newBmp.Save(saveFileDialog1.FileName, ImageFormat.Jpeg);
-                            break;
-                        case "png":
-                            newBmp.Save(saveFileDialog1.FileName, ImageFormat.Png);
-                            break;
-                    }
+                    newBmp.Save(saveFileDialog1.FileName, formats[fff]);
                     bmp = newBmp;
                 }
                 else
@@ -89,19 +80,7 @@ namespace WindowsFormsApp5
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmp = new Bitmap(pictureBox1.Image);
-                strFilExtn = namefile.Remove(0, namefile.Length - 3);
-                switch (strFilExtn)
-                {
-                    case "bmp":
-                        bmp.Save(saveFileDialog1.FileName, ImageFormat.Bmp);
-                        break;
-                    case "jpg":
-                        bmp.Save(saveFileDialog1.FileName, ImageFormat.Jpeg);
-                        break;
-                    case "png":
-                        bmp.Save(saveFileDialog1.FileName, ImageFormat.Png);
-                        break;
-                }
+                bmp.Save(saveFileDialog1.FileName, formats[fff]);
             }
         }
 

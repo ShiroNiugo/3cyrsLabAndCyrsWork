@@ -24,6 +24,7 @@ namespace WindowsFormsApp4
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = file;
+            openFileDialog1.FileName = namefile;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 clearForm();
@@ -49,6 +50,7 @@ namespace WindowsFormsApp4
                         }
                     }
                 }
+                saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
             }
         }
@@ -134,7 +136,7 @@ namespace WindowsFormsApp4
             }
             catch
             {
-                MessageBox.Show("Данные пусты ", "Ошибка");
+                MessageBox.Show("Данные пусты или заполнены неправильно", "Ошибка");
             }
             
         }
