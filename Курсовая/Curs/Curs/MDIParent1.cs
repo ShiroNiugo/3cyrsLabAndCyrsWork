@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace Curs
@@ -10,6 +11,7 @@ namespace Curs
         private ImageFormat[] formats = {ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
         private string namefile = "", file = "BMP files (*.BMP)|*.bmp| JPG files (*.JPG,)|*.jpg| PNG files (*.PNG)|*.png",
                        nf = "Окно контрастности ";
+        public int chekid;
 
         public SaveFileDialog saveFileDialog = new SaveFileDialog();
         public OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -78,6 +80,110 @@ namespace Curs
             }
         }
 
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            actForm = (Form1)this.ActiveMdiChild;
+            RadioButton radio = sender as RadioButton;
+            chekid = radio.TabIndex;
+            try
+            {
+                switch (chekid)
+                {
+                    case 26:
+                        {
+                            actForm.vcl = false;
+                            actForm.pictureBox1.Image = actForm.bmp;
+                            break;
+                        }
+                    case 27:
+                        {
+                            actForm.vcl = true;
+                            if (actForm.newBmp != null)
+                            {
+                                actForm.pictureBox1.Image = actForm.newBmp;
+                            }
+                            break;
+                        }
+                }
+            }
+            catch
+            {
+                radioButton1.Checked = true;
+            }
+}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                actForm = (Form1)this.ActiveMdiChild;
+                actForm.progressBar1.Maximum = actForm.pictureBox1.Width * actForm.pictureBox1.Height / 100;
+                actForm.cent = (int)numericUpDown1.Value;
+                actForm.chek = (actForm.cent == actForm.ty) ? true : false;
+                if (actForm.color && actForm.chek)
+                {
+                    radioButton1.Checked = true;
+                    contrast(actForm.cent);
+                    actForm.color = actForm.vcl = false;
+                }
+                else
+                {
+                    radioButton2.Checked = actForm.vcl = actForm.color = true;
+                    contrast(actForm.cent);
+                    actForm.ty = (int)numericUpDown1.Value;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Картинка не была загружена", "Ошибка");
+            }
+        }
+
+        public void contrast(int cent)
+        {
+            actForm = (Form1)this.ActiveMdiChild;
+            if (radioButton2.Checked && actForm.cent != actForm.ty)
+            {
+                actForm.progressBar1.Value = actForm.progressBar1.Minimum;
+                BitmapData bdata = actForm.bmp.LockBits(
+                    new Rectangle(0, 0, actForm.bmp.Width, actForm.bmp.Height),
+                    ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+                byte[] pixelBuffer = new byte[bdata.Stride * bdata.Height];
+                Marshal.Copy(bdata.Scan0, pixelBuffer, 0, pixelBuffer.Length);
+
+                actForm.bmp.UnlockBits(bdata);
+
+                double contrastLevel = 1.0 + cent / 100.0;
+
+                for (int k = 0; k + 4 < pixelBuffer.Length; k += 4)
+                {
+                    actForm.red = ((((pixelBuffer[k] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
+                    actForm.green = ((((pixelBuffer[k + 1] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
+                    actForm.blue = ((((pixelBuffer[k + 2] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
+
+                    actForm.red = (actForm.red < 0) ? 1 : (actForm.red > 255) ? 255 : actForm.red;
+                    actForm.green = (actForm.green < 0) ? 1 : (actForm.green > 255) ? 255 : actForm.green;
+                    actForm.blue = (actForm.blue < 0) ? 1 : (actForm.blue > 255) ? 255 : actForm.blue;
+
+                    pixelBuffer[k] = (byte)actForm.red;
+                    pixelBuffer[k + 1] = (byte)actForm.green;
+                    pixelBuffer[k + 2] = (byte)actForm.blue;
+
+                    actForm.progressBar1.Value += actForm.progressBar1.Value != actForm.progressBar1.Maximum ? 1 : 0;
+                }
+
+                actForm.newBmp = new Bitmap(actForm.bmp.Width, actForm.bmp.Height);
+                BitmapData resultNewBmp = actForm.newBmp.LockBits(
+                    new Rectangle(0, 0, actForm.newBmp.Width, actForm.newBmp.Height),
+                    ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+                Marshal.Copy(pixelBuffer, 0, resultNewBmp.Scan0, pixelBuffer.Length);
+                actForm.newBmp.UnlockBits(resultNewBmp);
+
+                actForm.pictureBox1.Image = actForm.newBmp;
+            }
+        }
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -95,5 +201,6 @@ namespace Curs
                 childForm.Close();
             }
         }
+
     }
 }
