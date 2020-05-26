@@ -97,9 +97,9 @@ namespace Curs
                         }
                     case 27:
                         {
-                            actForm.vcl = true;
                             if (actForm.newBmp != null)
                             {
+                                actForm.vcl = true;
                                 actForm.pictureBox1.Image = actForm.newBmp;
                             }
                             break;
@@ -120,9 +120,9 @@ namespace Curs
                 actForm.progressBar1.Maximum = actForm.pictureBox1.Width * actForm.pictureBox1.Height / 100;
                 actForm.cent = (int)numericUpDown1.Value;
                 actForm.chek = (actForm.cent == actForm.ty) ? true : false;
-                if (actForm.color && actForm.chek)
+                if (actForm.color && actForm.chek && radioButton2.Checked)
                 {
-                    radioButton1.Checked = true;
+                    radioButton1.Checked = (actForm.cent != actForm.ty) ? false : true;
                     contrast(actForm.cent);
                     actForm.color = actForm.vcl = false;
                 }
