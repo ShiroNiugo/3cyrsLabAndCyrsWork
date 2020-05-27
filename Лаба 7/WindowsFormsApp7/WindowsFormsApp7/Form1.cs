@@ -20,9 +20,6 @@ namespace WindowsFormsApp7
         public Form1()
         {
             InitializeComponent();
-            formats[0] = ImageFormat.Bmp;
-            formats[1] = ImageFormat.Jpeg;
-            formats[2] = ImageFormat.Png;
         }
 
         // Открыть\сохранить
@@ -42,9 +39,8 @@ namespace WindowsFormsApp7
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.FileName == openFileDialog1.FileName)
-                saveFileDialog1.FileName = openFileDialog1.FileName;
-            else openFileDialog1.FileName = saveFileDialog1.FileName;
+            if (openFileDialog1.FileName != saveFileDialog1.FileName)
+                openFileDialog1.FileName = saveFileDialog1.FileName;
             try
             {
                 newBmp = new Bitmap(pictureBox1.Image);

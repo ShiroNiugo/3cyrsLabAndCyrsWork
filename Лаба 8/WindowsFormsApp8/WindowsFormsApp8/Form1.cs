@@ -9,8 +9,8 @@ namespace WindowsFormsApp8
     public partial class Form1 : Form
     {
         Bitmap bmp, newBmp;
-        ImageFormat[] formats = new ImageFormat[3];
-        int cent, ty, fff;
+        ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
+        int cent, ty;
         bool color = false, chek = false;
         const int L = 256;
         double red, green, blue;
@@ -21,9 +21,6 @@ namespace WindowsFormsApp8
         public Form1()
         {
             InitializeComponent();
-            formats[0] = ImageFormat.Bmp;
-            formats[1] = ImageFormat.Jpeg;
-            formats[2] = ImageFormat.Png;
         }
 
         // Открыть\сохранить
@@ -36,21 +33,18 @@ namespace WindowsFormsApp8
                 pictureBox1.Image = bmp;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
                 namefile = openFileDialog1.SafeFileName;
-                fff = openFileDialog1.FilterIndex - 1;
             }
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.FileName == openFileDialog1.FileName)
-                saveFileDialog1.FileName = openFileDialog1.FileName;
-            else openFileDialog1.FileName = saveFileDialog1.FileName;
+            if (openFileDialog1.FileName != saveFileDialog1.FileName)
+                openFileDialog1.FileName = saveFileDialog1.FileName;
             try
             {
                 newBmp = new Bitmap(pictureBox1.Image);
-                newBmp.Save(saveFileDialog1.FileName, formats[fff]);
+                newBmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
                 bmp = newBmp;
-                
             }
             catch
             {
@@ -65,31 +59,7 @@ namespace WindowsFormsApp8
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[fff]);
-            }
-        }
-
-        void kkk(byte[] pixelBuffer, int y, double contrastLevel)
-        {
-            for (int k = 0; k + 4 < y; k += 4)
-            {
-                red = ((((pixelBuffer[k] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
-                green = ((((pixelBuffer[k + 1] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
-                blue = ((((pixelBuffer[k + 2] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
-
-                red = (red < 0) ? 1 : (red > 255) ? 255 : red;
-                green = (green < 0) ? 1 : (green > 255) ? 255 : green;
-                blue = (blue < 0) ? 1 : (blue > 255) ? 255 : blue;
-
-                pixelBuffer[k] = (byte)red;
-                pixelBuffer[k + 1] = (byte)green;
-                pixelBuffer[k + 2] = (byte)blue;
-
-
-                if (progressBar1.Value != progressBar1.Maximum)
-                {
-                    progressBar1.Value += 1;
-                }
+                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
             }
         }
 
@@ -115,28 +85,26 @@ namespace WindowsFormsApp8
                     double contrastLevel = 1.0 + cent / 100.0;
                     int y = pixelBuffer.Length;
 
-                    kkk(pixelBuffer, y, contrastLevel);
+                    for (int k = 0; k + 4 < pixelBuffer.Length; k += 4)
+                    {
+                        red = ((((pixelBuffer[k] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
+                        green = ((((pixelBuffer[k + 1] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
+                        blue = ((((pixelBuffer[k + 2] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
 
-                    //for (int k = 0; k + 4 < pixelBuffer.Length; k += 4)
-                    //{
-                    //    red = ((((pixelBuffer[k] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
-                    //    green = ((((pixelBuffer[k + 1] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
-                    //    blue = ((((pixelBuffer[k + 2] / 255.0) - 0.5) * contrastLevel) + 0.5) * 255.0;
+                        red = (red < 0) ? 1 : (red > 255) ? 255 : red;
+                        green = (green < 0) ? 1 : (green > 255) ? 255 : green;
+                        blue = (blue < 0) ? 1 : (blue > 255) ? 255 : blue;
 
-                    //    red = (red < 0) ? 1 : (red > 255) ? 255 : red;
-                    //    green = (green < 0) ? 1 : (green > 255) ? 255 : green;
-                    //    blue = (blue < 0) ? 1 : (blue > 255) ? 255 : blue;
-
-                    //    pixelBuffer[k] = (byte)red;
-                    //    pixelBuffer[k + 1] = (byte)green;
-                    //    pixelBuffer[k + 2] = (byte)blue;
+                        pixelBuffer[k] = (byte)red;
+                        pixelBuffer[k + 1] = (byte)green;
+                        pixelBuffer[k + 2] = (byte)blue;
 
 
-                    //    if (progressBar1.Value != progressBar1.Maximum)
-                    //    {
-                    //        progressBar1.Value += 1;
-                    //    }
-                    //}
+                        if (progressBar1.Value != progressBar1.Maximum)
+                        {
+                            progressBar1.Value += 1;
+                        }
+                    }
 
                     newBmp = new Bitmap(bmp.Width, bmp.Height);
                     BitmapData resultNewBmp = newBmp.LockBits(

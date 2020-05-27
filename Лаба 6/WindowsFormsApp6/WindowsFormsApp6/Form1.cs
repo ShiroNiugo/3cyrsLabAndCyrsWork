@@ -15,7 +15,7 @@ namespace WindowsFormsApp6
         byte gray;
         int color;
         bool Gray = false;
-        string namefile, file = "BMP files (*.BMP)|*.bmp| JPG files (*.JPEG)|*.jpeg| PNG files (*.PNG)|*.png";
+        string namefile, file = "BMP files (*.BMP)|*.bmp| JPG files (*.JPG)|*.jpg| PNG files (*.PNG)|*.png";
 
         public Form1()
         {
@@ -40,9 +40,8 @@ namespace WindowsFormsApp6
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.FileName == openFileDialog1.FileName)
-                saveFileDialog1.FileName = openFileDialog1.FileName;
-            else openFileDialog1.FileName = saveFileDialog1.FileName;
+            if (openFileDialog1.FileName != saveFileDialog1.FileName)
+                openFileDialog1.FileName = saveFileDialog1.FileName;
             try
             {
                 newBmp = new Bitmap(pictureBox1.Image);
