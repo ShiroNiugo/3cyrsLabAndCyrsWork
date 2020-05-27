@@ -118,7 +118,7 @@ namespace Curs
             {
                 actForm = (Form1)this.ActiveMdiChild;
                 actForm.progressBar1.Maximum = actForm.pictureBox1.Width * actForm.pictureBox1.Height / 100;
-                actForm.cent = (int)numericUpDown1.Value;
+                actForm.cent = (double)numericUpDown1.Value;
                 actForm.chek = (actForm.cent == actForm.ty) ? true : false;
                 if (actForm.color && actForm.chek && radioButton2.Checked)
                 {
@@ -130,7 +130,7 @@ namespace Curs
                 {
                     radioButton2.Checked = actForm.vcl = actForm.color = true;
                     contrast(actForm.cent);
-                    actForm.ty = (int)numericUpDown1.Value;
+                    actForm.ty = (double)numericUpDown1.Value;
                 }
             }
             catch
@@ -139,7 +139,7 @@ namespace Curs
             }
         }
 
-        public void contrast(int cent)
+        public void contrast(double cent)
         {
             actForm = (Form1)this.ActiveMdiChild;
             if (radioButton2.Checked && actForm.cent != actForm.ty)

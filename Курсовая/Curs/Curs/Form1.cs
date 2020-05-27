@@ -6,12 +6,12 @@ namespace Curs
     public partial class Form1 : Form
     {
         public Bitmap bmp, newBmp;
-        public int cent, ty;
+        public double cent, ty;
         public bool color = false, chek = false, vcl = false;
 
         private void Form1_Activated(object sender, System.EventArgs e)
         {
-            Program.f1.numericUpDown1.Value = ty;
+            Program.f1.numericUpDown1.Value = (decimal)ty;
             if (!vcl) Program.f1.radioButton1.Checked = true;
             else Program.f1.radioButton2.Checked = true;
         }
