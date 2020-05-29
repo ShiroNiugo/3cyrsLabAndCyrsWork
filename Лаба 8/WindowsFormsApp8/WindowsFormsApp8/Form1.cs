@@ -98,12 +98,8 @@ namespace WindowsFormsApp8
                         pixelBuffer[k] = (byte)red;
                         pixelBuffer[k + 1] = (byte)green;
                         pixelBuffer[k + 2] = (byte)blue;
-
-
-                        if (progressBar1.Value != progressBar1.Maximum)
-                        {
-                            progressBar1.Value += 1;
-                        }
+                        
+                        progressBar1.Value += (progressBar1.Value != progressBar1.Maximum) ? 1 : 0;
                     }
 
                     newBmp = new Bitmap(bmp.Width, bmp.Height);
