@@ -7,7 +7,7 @@ namespace WindowsFormsApp5
 {
     public partial class Form1 : Form
     {
-        Bitmap bmp, newBmp;
+        Bitmap bmp;
         ImageFormat[] formats = {ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png};
         Graphics g;
         Point lastPoint = new Point(),
@@ -17,7 +17,7 @@ namespace WindowsFormsApp5
         OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
         int val;
-        string namefile = "", fel, file = "BMP files (*.BMP)| *.bmp| JPG files (*.JPG)| *.jpg| PNG files (*.PNG)| *.png";
+        string namefile = "", file = "BMP files (*.BMP)| *.bmp| JPG files (*.JPG)| *.jpg| PNG files (*.PNG)| *.png";
         
         public Form1()
         {
@@ -53,18 +53,19 @@ namespace WindowsFormsApp5
                 return new Bitmap(fs);
         }
 
+        void save()
+        {
+            bmp = new Bitmap(pictureBox1.Image);
+            bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
+        }
+
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.FileName != saveFileDialog1.FileName)
                 openFileDialog1.FileName = saveFileDialog1.FileName;
             try
             {
-                if (saveFileDialog1.FileName != "")
-                {
-                    newBmp = new Bitmap(pictureBox1.Image);
-                    newBmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
-                    bmp = newBmp;
-                }
+                if (saveFileDialog1.FileName != "") save();
                 else сохранитьКакToolStripMenuItem_Click(sender, e);
             }
             catch
@@ -77,18 +78,13 @@ namespace WindowsFormsApp5
         {
             saveFileDialog1.Filter = file;
             saveFileDialog1.FileName = namefile;
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
-            }
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK) save();
         }
 
         // Рисование мышкой
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
             g = Graphics.FromImage(bmp);
-            newBmp = new Bitmap(bmp.Width, bmp.Height);
             val = Convert.ToInt32(toolStripMenuItem2.Text);
             fistPoint = e.Location;
             Re = e.Location;
@@ -131,7 +127,6 @@ namespace WindowsFormsApp5
                 }
                 pictureBox1.Refresh();
                 pictureBox1.Image = bmp;
-                newBmp = bmp;
             }
         }
 

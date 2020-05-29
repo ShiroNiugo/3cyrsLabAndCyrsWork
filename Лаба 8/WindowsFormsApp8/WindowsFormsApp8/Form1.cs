@@ -14,7 +14,7 @@ namespace WindowsFormsApp8
         bool color = false, chek = false;
         const int L = 256;
         double red, green, blue;
-        string namefile = "", strFilExtn, file = "BMP files (*.BMP)|*.bmp|" +
+        string namefile = "", file = "BMP files (*.BMP)|*.bmp|" +
                                      "JPG files (*.JPG,)|*.jpg|" +
                                      "PNG files (*.PNG)|*.png";
 

@@ -131,10 +131,6 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            // 
             // progressBar1
             // 
             this.progressBar1.Location = new System.Drawing.Point(0, 432);
