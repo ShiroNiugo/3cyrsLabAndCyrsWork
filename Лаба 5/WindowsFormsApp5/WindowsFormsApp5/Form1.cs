@@ -33,6 +33,12 @@ namespace WindowsFormsApp5
             g.Clear(Color.White);
         }
 
+        Bitmap OpenImage(string filePath)
+        {
+            using (var fs = new System.IO.FileStream(filePath, System.IO.FileMode.Open))
+                return new Bitmap(fs);
+        }
+
         // Открыть\сохранить
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -45,12 +51,6 @@ namespace WindowsFormsApp5
                 namefile = openFileDialog1.SafeFileName;
                 saveFileDialog1.FileName = openFileDialog1.FileName;
             }
-        }
-
-        Bitmap OpenImage(string filePath)
-        {
-            using (var fs = new System.IO.FileStream(filePath, System.IO.FileMode.Open))
-                return new Bitmap(fs);
         }
 
         void save()

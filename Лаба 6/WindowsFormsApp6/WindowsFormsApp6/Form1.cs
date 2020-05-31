@@ -57,13 +57,17 @@ namespace WindowsFormsApp6
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Filter = file;
-            saveFileDialog1.FileName = namefile;
-            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (namefile != "")
             {
-                bmp = new Bitmap(pictureBox1.Image);
-                bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
+                saveFileDialog1.Filter = file;
+                saveFileDialog1.FileName = namefile;
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    bmp = new Bitmap(pictureBox1.Image);
+                    bmp.Save(saveFileDialog1.FileName, formats[saveFileDialog1.FilterIndex - 1]);
+                }
             }
+            else MessageBox.Show("Для сохранения ничего не открыто", "Ошибка");
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

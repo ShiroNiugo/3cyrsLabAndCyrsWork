@@ -68,15 +68,22 @@ namespace Curs
 
         private void SaveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog.Filter = file;
-            saveFileDialog.FileName = namefile;
-            if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
+            if (namefile != "")
             {
-                actForm = (Form1)this.ActiveMdiChild;
-                actForm.bmp = new Bitmap(actForm.pictureBox1.Image);
-                actForm.bmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex - 1]);
-                actForm.Name = saveFileDialog.FileName;
-                actForm.Text = nf + System.IO.Path.GetFileName(saveFileDialog.FileName);
+                saveFileDialog.Filter = file;
+                saveFileDialog.FileName = namefile;
+                if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    actForm = (Form1)this.ActiveMdiChild;
+                    actForm.bmp = new Bitmap(actForm.pictureBox1.Image);
+                    actForm.bmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex - 1]);
+                    actForm.Name = saveFileDialog.FileName;
+                    actForm.Text = nf + System.IO.Path.GetFileName(saveFileDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Для сохранения ничего не открыто", "Ошибка");
             }
         }
 
