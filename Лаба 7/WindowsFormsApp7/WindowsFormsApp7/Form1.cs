@@ -81,9 +81,9 @@ namespace WindowsFormsApp7
                 {
                     newBmp = new Bitmap(bmp.Width, bmp.Height);
                     brig = (brig < -255) ? -255 : (brig > 255) ? 255 : brig;
-                    for (int j = 0; j < bmp.Height; j++)
+                    for (int j = 0; j < bmp.Width; j++)
                     {
-                        for (int i = 0; i < bmp.Width; i++)
+                        for (int i = 0; i < bmp.Height; i++)
                         {
                             c = bmp.GetPixel(i, j);
                             cR = c.R + brig;

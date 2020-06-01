@@ -193,12 +193,16 @@ namespace Curs
         }
         private void ExitToolsStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            var result = MessageBox.Show("Вы уверены что хотите выйти?", "Выход", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void helpMenu_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Курсовая работа.\nКапустин Д.Е. ЭИС-26", "О программе");
+            MessageBox.Show("Курсовая работа.\nВыполил студент группы ЭИС-26\nКапустин Д.Е.", "О программе");
         }
 
         private void CloseAllToolStripMenuItem_Click(object sender, EventArgs e)
