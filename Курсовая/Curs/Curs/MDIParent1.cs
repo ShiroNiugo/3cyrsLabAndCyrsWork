@@ -8,14 +8,14 @@ namespace Curs
 {
     public partial class MDIParent1 : Form
     {
-        private ImageFormat[] formats = {ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
+        private ImageFormat[] formats = { ImageFormat.Bmp, ImageFormat.Jpeg, ImageFormat.Png };
         private string namefile = "", file = "BMP files (*.BMP)|*.bmp| JPG files (*.JPG,)|*.jpg| PNG files (*.PNG)|*.png",
                        nf = "Окно контрастности ";
         public int chekid;
 
         public SaveFileDialog saveFileDialog = new SaveFileDialog();
         public OpenFileDialog openFileDialog = new OpenFileDialog();
-        
+
         public Form1 actForm;
 
         public MDIParent1()
@@ -50,8 +50,8 @@ namespace Curs
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             actForm = (Form1)this.ActiveMdiChild;
-            string actName = actForm.Text.Remove(0, nf.Length);
-            if (openFileDialog.FileName == saveFileDialog.FileName && actForm.Name==saveFileDialog.FileName)
+            _ = actForm.Text.Remove(0, nf.Length);
+            if (openFileDialog.FileName == saveFileDialog.FileName && actForm.Name == saveFileDialog.FileName)
             {
                 saveFileDialog.FileName = openFileDialog.FileName;
             }
@@ -63,7 +63,7 @@ namespace Curs
             try
             {
                 actForm.newBmp = new Bitmap(actForm.pictureBox1.Image);
-                actForm.newBmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex-1]);
+                actForm.newBmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex - 1]);
                 actForm.bmp = actForm.newBmp;
             }
             catch
@@ -80,7 +80,7 @@ namespace Curs
                 saveFileDialog.FileName = namefile;
                 if (saveFileDialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    actForm = (Form1)this.ActiveMdiChild;
+                    actForm = (Form1)ActiveMdiChild;
                     actForm.bmp = new Bitmap(actForm.pictureBox1.Image);
                     actForm.bmp.Save(saveFileDialog.FileName, formats[saveFileDialog.FilterIndex - 1]);
                     actForm.Name = saveFileDialog.FileName;
@@ -94,8 +94,8 @@ namespace Curs
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            actForm = (Form1)this.ActiveMdiChild;
+        {   
+            actForm = (Form1)ActiveMdiChild;
             RadioButton radio = sender as RadioButton;
             chekid = radio.TabIndex;
             try
@@ -123,7 +123,7 @@ namespace Curs
             {
                 radioButton1.Checked = true;
             }
-}
+        }
 
         private void button1_Click(object sender, EventArgs e)
         {
