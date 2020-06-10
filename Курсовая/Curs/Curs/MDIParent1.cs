@@ -23,6 +23,12 @@ namespace Curs
             InitializeComponent();
         }
 
+        Bitmap OpenImage(string filePath)
+        {
+            using (var fs = new System.IO.FileStream(filePath, System.IO.FileMode.Open))
+                return new Bitmap(fs);
+        }
+
         private void OpenFile(object sender, EventArgs e)
         {
             openFileDialog.Filter = file;
@@ -31,7 +37,7 @@ namespace Curs
             {
                 Form1 childForm = new Form1();
                 childForm.MdiParent = this;
-                childForm.bmp = new Bitmap(Image.FromFile(openFileDialog.FileName));
+                childForm.bmp = OpenImage(openFileDialog.FileName);
                 childForm.pictureBox1.Image = childForm.bmp;
                 namefile = openFileDialog.SafeFileName;
                 saveFileDialog.FileName = openFileDialog.FileName;
